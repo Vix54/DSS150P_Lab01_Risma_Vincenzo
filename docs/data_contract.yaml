@@ -1,0 +1,50 @@
+# Chosen Source: customers.csv
+# Reason: It is suitable for a basic contract because it has a flat, predictable  structure with clear data types and a straightforward primary key.
+
+dataset_name: customers
+version: 1.0
+owner: unknown - requires confirmation
+source_type: file
+source_format: csv
+acquisition_method: File transfer / Local read
+expected_update_pattern: batch
+primary_key: customer_id
+schema:
+  - name: customer_id
+    type: string
+    nullable: false
+    description: Unique identifier for each customer
+  - name: first_name
+    type: string
+    nullable: false
+    description: Customer's first name
+  - name: last_name
+    type: string
+    nullable: false
+    description: Customer's last name
+  - name: email
+    type: string
+    nullable: true
+    description: Customer's email address
+  - name: city
+    type: string
+    nullable: true
+    description: Customer's residing city
+  - name: signup_date
+    type: date
+    nullable: false
+    description: Date the customer registered
+  - name: customer_segment
+    type: string
+    nullable: false
+    description: Categorization of the customer type
+quality_rules:
+  - customer_id must not be null
+  - customer_id must be unique
+  - signup_date must be a valid date format
+  - customer_segment must be one of Retail, Professional, SME, Student
+freshness_expectation: unknown - requires confirmation
+duplicate_policy: deduplicate
+schema_evolution_policy: quarantine and alert on schema changes
+consumer: Analytics Team
+notes: The raw source file contains 2 fully duplicated rows that must be deduplicated during ingestion to avoid primary key constraint violations.

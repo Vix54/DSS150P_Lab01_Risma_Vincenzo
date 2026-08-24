@@ -1,0 +1,11 @@
+# Lifecycle Map
+
+| Lifecycle Element | What It Means | Example in This Lab | Primary Tool/Artifact | Possible Failure |
+| :--- | :--- | :--- | :--- | :--- |
+| **Source system** | The origin point where data is created, collected, or currently resides before extraction. | The external REST API or the `customers.csv` file. | API Server / Local OS Filesystem | The API server is down, or the source file is missing/corrupted. |
+| **Ingestion/acquisition** | The process of extracting data from the source and moving it into the pipeline environment. | Retrieving the JSON payload from the API using Python. | Python `requests` library | Network timeout, invalid URL, or authentication failure. |
+| **Storage** | The location and system where the extracted or processed data is saved for future use. | Saving the raw files in `data/raw/` or storing tables in the local database. | PostgreSQL (via Docker) | The Docker container crashes, or port 5432 is already in use. |
+| **Processing/transformation** | Cleaning, structuring, or altering the raw data to make it usable and standardized. | Converting the nested JSON from the API into a flat tabular format. | Python (`pandas`) | The source schema changes unexpectedly, causing the script to fail. |
+| **Data quality/validation** | Checking the data against predefined rules to ensure it is accurate, complete, and reliable. | Profiling the files to count missing/null values or identifying duplicate rows. | `src/profile_sources.py` script | A critical field designated as a primary key contains null values. |
+| **Delivery** | Serving the processed and validated data so it can be accessed by the downstream consumers. | Deploying the formal SQL schema so the table can be queried safely. | PostgreSQL / `01_create_schema.sql` | The deployment fails due to a syntax error or missing table permissions. |
+| **Consumer** | The person, team, or system that ultimately uses the delivered data for analysis or operations. | The fictional analytics team requiring the data map and verified environment. | BI Tool, SQL Client, or Data Analyst | The analyst misinterprets the data because the schema documentation is missing. |
